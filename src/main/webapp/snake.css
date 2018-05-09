@@ -8,10 +8,6 @@ body{
     height:800px;
     margin-right:-4px;
 }
-.play{
-    cursor:pointer;
-    background-color:#060;
-}
 div>div{
     display:block;
     height:20px;

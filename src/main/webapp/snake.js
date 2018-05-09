@@ -1,10 +1,5 @@
 $(document).ready(function () {
     animate();
-    $(".play").click(animate).mouseover(function () {
-        $(".play").css({"background-color": "#A55"});
-    }).mouseout(function () {
-        $(".play").css({"background-color": "#060"});
-    });
 });
 
 function animate() {
