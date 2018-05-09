@@ -1,8 +1,7 @@
-package snake;
+package com.neil.snake;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -13,16 +12,16 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Playground {
 
-    private int width = 20;
-    private int length = 30;
-    private List<Snake> snakeList;
+    private int width = 40;
+    private int length = 40;
+    private ConcurrentHashMap<Integer, Snake> snakeMap;
     private final AtomicInteger[][] map;
     private ScheduledExecutorService executor;
 
     public Playground() {
         int width = this.width;
         int length = this.length;
-        this.snakeList = new ArrayList<>();
+        this.snakeMap = new ConcurrentHashMap<>();
         this.map = new AtomicInteger[width][length];
         for (int y = 0; y < width; y++) {
             for (int x = 0; x < length; x++) {
@@ -99,7 +98,25 @@ public class Playground {
     }
 
     public void add(Snake snake) {
-        snakeList.add(snake);
+        snakeMap.put(snake.getId(), snake);
+    }
+
+    public void remove(Snake snake) {
+        snakeMap.remove(snake.getId());
+    }
+
+    public int[][] getMap() {
+        int[][] result = new int[width][length];
+        for (int y = 0; y < width; y++) {
+            for (int x = 0; x < length; x++) {
+                result[y][x] = map[y][x].get();
+            }
+        }
+        return result;
+    }
+
+    public Snake getSnake(int id) {
+        return snakeMap.get(id);
     }
 
     private class Feeder implements Runnable {
@@ -116,7 +133,7 @@ public class Playground {
                     }
                 }
             }
-            count = snakeList.size() * 3 - count;
+            count = snakeMap.size() * 3 - count;
             while (count > 0) {
                 int birthX = new Random().nextInt(pL);
                 int birthY = new Random().nextInt(pW);

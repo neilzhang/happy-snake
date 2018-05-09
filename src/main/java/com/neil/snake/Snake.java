@@ -1,4 +1,4 @@
-package snake;
+package com.neil.snake;
 
 import java.util.Random;
 import java.util.concurrent.Executors;
@@ -30,7 +30,55 @@ public class Snake {
     }
 
     public void receive(int cmd) {
-        this.cmd = cmd;
+        byte[] dir = getDirection();
+        byte dirX = dir[0];
+        byte dirY = dir[1];
+        switch (cmd) {
+            case 1://Left
+                if (dirX == 0 && dirY == -1) {
+                    this.cmd = 2;
+                } else if (dirX == -1 && dirY == 0) {
+                    this.cmd = 1;
+                } else if (dirX == 0 && dirY == 1) {
+                    this.cmd = 3;
+                } else if (dirX == 1 && dirY == 0) {
+
+                }
+                break;
+            case 2://Up
+                if (dirX == 0 && dirY == -1) {
+                    this.cmd = 1;
+                } else if (dirX == -1 && dirY == 0) {
+                    this.cmd = 3;
+                } else if (dirX == 0 && dirY == 1) {
+
+                } else if (dirX == 1 && dirY == 0) {
+                    this.cmd = 2;
+                }
+                break;
+            case 3://Right
+                if (dirX == 0 && dirY == -1) {
+                    this.cmd = 3;
+                } else if (dirX == -1 && dirY == 0) {
+
+                } else if (dirX == 0 && dirY == 1) {
+                    this.cmd = 2;
+                } else if (dirX == 1 && dirY == 0) {
+                    this.cmd = 1;
+                }
+                break;
+            case 4://Down
+                if (dirX == 0 && dirY == -1) {
+
+                } else if (dirX == -1 && dirY == 0) {
+                    this.cmd = 2;
+                } else if (dirX == 0 && dirY == 1) {
+                    this.cmd = 1;
+                } else if (dirX == 1 && dirY == 0) {
+                    this.cmd = 3;
+                }
+                break;
+        }
     }
 
     public boolean join(Playground playground) {
@@ -77,6 +125,10 @@ public class Snake {
         return success;
     }
 
+    public int getId() {
+        return id;
+    }
+
     private void running() {
         executor.scheduleAtFixedRate(new Heartbeat(), 1, 1, TimeUnit.SECONDS);
     }
@@ -91,8 +143,8 @@ public class Snake {
                 break;
             }
         }
-        System.out.println();
         playground.printMap("destroy stat:");
+        playground.remove(this);
         executor.shutdown();
     }
 

@@ -1,4 +1,4 @@
-package snake;
+package com.neil.snake;
 
 /**
  * @author neil
